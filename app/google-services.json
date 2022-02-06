@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "319817919375",
+    "project_id": "whatsup-from-zaid",
+    "storage_bucket": "whatsup-from-zaid.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:319817919375:android:13b88aaefa30f3510c39fa",
+        "android_client_info": {
+          "package_name": "com.example.finalproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "319817919375-97lavnp06veur42j94ig5r1vjfemsbtp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.finalproject",
+            "certificate_hash": "e64623592d5a768a565eec16e11300d39192c966"
+          }
+        },
+        {
+          "client_id": "319817919375-oukmg1lie9qi523othuo3m3l8i4nq2gp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZTsdXSiYpCNFPLtY_oO5dTnWdqjHD-T4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "319817919375-oukmg1lie9qi523othuo3m3l8i4nq2gp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

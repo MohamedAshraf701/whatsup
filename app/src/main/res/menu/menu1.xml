@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:id="@+id/profilemenu"
+        android:icon="@drawable/user"
+        android:onClick="profilemenuclicked"
+        android:title="profile"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/settingmenu"
+        android:icon="@drawable/settings"
+        android:onClick="settingmenuclicked"
+        android:title="Settings"
+        app:showAsAction="always" />
+</menu>

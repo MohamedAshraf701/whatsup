@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="20dp"
+    android:padding="5dp">
+
+    <ImageView
+        android:id="@+id/reaction"
+        android:layout_width="13dp"
+        android:layout_height="13dp"
+        android:elevation="8dp"
+        android:focusable="auto"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/sentmsg"
+        app:layout_constraintStart_toStartOf="@+id/sentmsg"
+        app:layout_constraintTop_toTopOf="@+id/sentmsg"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/googleg_standard_color_18" />
+
+    <TextView
+        android:id="@+id/sentmsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/recdra"
+        android:paddingLeft="13dp"
+        android:paddingTop="5dp"
+        android:paddingRight="7dp"
+        android:paddingBottom="5dp"
+        android:text="TextView"
+        android:textColor="@color/text"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/timeofmsgr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10:10 pm"
+        android:textColor="@color/text1"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sentmsg" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
