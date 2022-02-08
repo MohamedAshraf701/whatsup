@@ -1,5 +1,8 @@
+@file:Suppress("ClassName")
+
 package com.example.finalproject.fragments
 
+import android.annotation.SuppressLint
 import com.example.finalproject.adaptor.statusadeptor
 import com.example.finalproject.models.Statusm
 import android.view.LayoutInflater
@@ -27,19 +30,19 @@ class storyf : Fragment() {
         val view = inflater.inflate(R.layout.fragment_storyf, container, false)
         val rv: RecyclerView = view.findViewById(R.id.rv6)
         rv.layoutManager = GridLayoutManager(activity, 2)
-        var statusms: ArrayList<Statusm> = ArrayList()
+        val statusms: ArrayList<Statusm> = ArrayList()
         statusadept = statusadeptor(container!!.context, statusms)
         rv.adapter = statusadept
         FirebaseDatabase.getInstance().reference.child("Users")
             .child(FirebaseAuth.getInstance().uid!!)
             .addValueEventListener(object : ValueEventListener {
+                @SuppressLint("NotifyDataSetChanged")
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.child("statuses").exists()) {
-                        statusms!!.clear()
-                        val stat = ArrayList<Statusm>()
+                        statusms.clear()
                         for (snapshot2 in snapshot.child("statuses").children) {
                             val samplestatus = snapshot2.getValue(Statusm::class.java)
-                            statusms!!.add(samplestatus!!)
+                            statusms.add(samplestatus!!)
                         }
                         statusadept!!.notifyDataSetChanged()
                     }

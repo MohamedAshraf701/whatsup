@@ -1,5 +1,8 @@
+@file:Suppress("ClassName")
+
 package com.example.finalproject.fragments
 
+import android.annotation.SuppressLint
 import com.example.finalproject.adaptor.userpostadaptor
 import com.example.finalproject.models.userposts
 import android.view.LayoutInflater
@@ -31,6 +34,7 @@ class postf2 : Fragment() {
         rv.adapter = topstatusadeptor
         FirebaseDatabase.getInstance().reference.child("posts")
             .addValueEventListener(object : ValueEventListener {
+                @SuppressLint("NotifyDataSetChanged")
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
                         userposts!!.clear()

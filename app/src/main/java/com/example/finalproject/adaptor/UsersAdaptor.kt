@@ -1,3 +1,5 @@
+@file:Suppress("ClassName")
+
 package com.example.finalproject.adaptor
 import android.content.Context
 import com.example.finalproject.adaptor.UsersAdaptor.userviewholder
@@ -12,11 +14,11 @@ import com.google.firebase.database.DatabaseError
 import com.bumptech.glide.Glide
 import android.content.Intent
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.finalproject.activitys.personchat
-import com.example.finalproject.databinding.RowofuserBinding
 import com.example.finalproject.models.User
-import kotlinx.android.synthetic.main.activity_personchat.*
 import java.util.ArrayList
 
 class UsersAdaptor(var context: Context, var users: ArrayList<User>) :
@@ -33,10 +35,10 @@ class UsersAdaptor(var context: Context, var users: ArrayList<User>) :
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
-                        holder.binding.lastmsg.text = snapshot.child("lastmessage").getValue(
+                        holder.lastmsg.text = snapshot.child("lastmessage").getValue(
                             String::class.java
                         )
-                        holder.binding.lasttime.text = snapshot.child("lastmsgtime").getValue(
+                        holder.lasttime.text = snapshot.child("lastmsgtime").getValue(
                             String::class.java
                         )
                     }
@@ -44,17 +46,17 @@ class UsersAdaptor(var context: Context, var users: ArrayList<User>) :
 
                 override fun onCancelled(error: DatabaseError) {}
             })
-        holder.binding.username.text = user.username
+        holder.usernm.text = user.username
         Glide.with(context).load(user.profilepicture).placeholder(R.drawable.man)
-            .into(holder.binding.imview)
+            .into(holder.img)
         FirebaseDatabase.getInstance().reference.child("Users")
             .child(user.uid.toString()).child("lastseen").addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    var asd = snapshot.getValue(String::class.java)
+                    val asd = snapshot.getValue(String::class.java)
                     if(asd=="Online")
-                        holder.binding.status.text=asd
+                        holder.statu.text=asd
                     else
-                        holder.binding.status.text=""
+                        holder.statu.text=""
                 }
                 override fun onCancelled(error: DatabaseError) {}
             })
@@ -73,10 +75,10 @@ class UsersAdaptor(var context: Context, var users: ArrayList<User>) :
     }
 
     inner class userviewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var binding: RowofuserBinding
-
-        init {
-            binding = RowofuserBinding.bind(itemView)
-        }
+        val img:ImageView=itemView.findViewById(R.id.imview)
+        val usernm:TextView=itemView.findViewById(R.id.username)
+        val lastmsg:TextView=itemView.findViewById(R.id.lastmsg)
+        val lasttime:TextView=itemView.findViewById(R.id.lasttime)
+        val statu:TextView=itemView.findViewById(R.id.status)
     }
 }

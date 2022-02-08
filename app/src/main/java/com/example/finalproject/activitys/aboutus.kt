@@ -8,21 +8,22 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import androidx.annotation.RequiresApi
-import com.example.finalproject.databinding.ActivityAboutusBinding
+import com.example.finalproject.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.activity_aboutus.*
 import java.text.SimpleDateFormat
 
 @Suppress("DEPRECATION", "ClassName")
 class aboutus : AppCompatActivity() {
-    var binding: ActivityAboutusBinding? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityAboutusBinding.inflate(layoutInflater)
-        setContentView(binding!!.root)
+
+        setContentView(R.layout.activity_aboutus)
         window.decorView.systemUiVisibility =
             View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-        binding!!.toolbar8.setNavigationOnClickListener { finish() }
+        toolbar8.setNavigationOnClickListener { finish() }
     }
     @SuppressLint("SimpleDateFormat")
     @RequiresApi(api = Build.VERSION_CODES.N)

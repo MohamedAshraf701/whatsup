@@ -18,45 +18,41 @@ import android.os.Handler
 import android.view.MenuItem
 import android.view.View
 import androidx.annotation.RequiresApi
-import com.example.finalproject.databinding.ActivityProfileactiBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.activity_profileacti.*
 import java.text.SimpleDateFormat
 
 class profileacti : AppCompatActivity() {
-    var binding: ActivityProfileactiBinding? = null
     var pn: pageadeptor2? = null
     var username: String? = null
     private var propic: String? = null
     var status: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityProfileactiBinding.inflate(
-            layoutInflater
-        )
-        setContentView(binding!!.root)
+        setContentView(R.layout.activity_profileacti)
         username = intent.getStringExtra("name")
         propic = intent.getStringExtra("propic")
         status = intent.getStringExtra("status")
-        binding!!.username2.text = username
-        binding!!.status2.text = status
+        username2.text = username
+        status2.text = status
         Glide.with(applicationContext).load(propic).placeholder(R.drawable.man)
-            .into(binding!!.userpropic2)
+            .into(userpropic2)
         window.decorView.systemUiVisibility =
             View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-        binding!!.toolbar2.setNavigationOnClickListener { finish() }
-        pn = pageadeptor2(supportFragmentManager, binding!!.tb2.tabCount)
-        binding!!.viewpager1.adapter = pn
-        binding!!.tb2.setOnTabSelectedListener(object : OnTabSelectedListener {
+        toolbar2.setNavigationOnClickListener { finish() }
+        pn = pageadeptor2(supportFragmentManager, tb2.tabCount)
+        viewpager1.adapter = pn
+        tb2.setOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
-                binding!!.viewpager1.currentItem = tab.position
+                viewpager1.currentItem = tab.position
                 if (tab.position == 0 || tab.position == 1) pn!!.notifyDataSetChanged()
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {}
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
-        binding!!.viewpager1.addOnPageChangeListener(TabLayoutOnPageChangeListener(binding!!.tb2))
+        viewpager1.addOnPageChangeListener(TabLayoutOnPageChangeListener(tb2))
     }
 
     @Suppress("UNUSED_EXPRESSION")

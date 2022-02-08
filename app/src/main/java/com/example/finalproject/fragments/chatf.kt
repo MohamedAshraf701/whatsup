@@ -1,3 +1,5 @@
+@file:Suppress("ClassName")
+
 package com.example.finalproject.fragments
 import android.annotation.SuppressLint
 import android.content.Context
@@ -10,7 +12,6 @@ import com.example.finalproject.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.content.Intent
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.finalproject.activitys.contactacti
@@ -25,7 +26,7 @@ class chatf : Fragment() {
     var firebaseDatabase: FirebaseDatabase? = null
     lateinit var usersarray: Array<String?>
     val userid = FirebaseAuth.getInstance().uid
-    lateinit var con:Context
+    private lateinit var con:Context
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,17 +43,15 @@ class chatf : Fragment() {
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     usersarray = arrayOfNulls(snapshot.childrenCount.toInt())
-                    var a = 0
-                    for (snapshot1 in snapshot.children) {
+                    for ((a, snapshot1) in snapshot.children.withIndex()) {
                         usersarray[a] = snapshot1.key
-                        a++
                     }
                 }
                 override fun onCancelled(error: DatabaseError) {}
             })
         firebaseDatabase = FirebaseDatabase.getInstance()
         val users:ArrayList<User> = ArrayList()
-        var usersAdaptor= UsersAdaptor(con, users)
+        val usersAdaptor= UsersAdaptor(con, users)
         firebaseDatabase!!.reference.child("Users")
             .addValueEventListener(object : ValueEventListener {
                 @SuppressLint("NotifyDataSetChanged")

@@ -17,12 +17,12 @@ import android.content.Intent
 import android.net.Uri
 import android.view.View
 import androidx.core.app.ActivityCompat
-import com.example.finalproject.databinding.ActivitySetproactiBinding
 import com.example.finalproject.models.User
+import kotlinx.android.synthetic.main.activity_setproacti.*
 import java.lang.Exception
 
 class setproacti : AppCompatActivity() {
-    var binding: ActivitySetproactiBinding? = null
+
     private var firebaseAuth: FirebaseAuth? = null
     private var firebaseStorage: FirebaseStorage? = null
     private var storageReference: StorageReference? = null
@@ -30,41 +30,38 @@ class setproacti : AppCompatActivity() {
     private var check = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivitySetproactiBinding.inflate(
-            layoutInflater
-        )
-        setContentView(binding!!.root)
+        setContentView(R.layout.activity_setproacti)
         window.decorView.systemUiVisibility =
             View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
         firebaseAuth = FirebaseAuth.getInstance()
         try {
             firebaseStorage = FirebaseStorage.getInstance()
             storageReference = firebaseStorage!!.reference
-            binding!!.addpropic.setOnLongClickListener {
+            addpropic.setOnLongClickListener {
                 check = if (check == 0) {
-                    binding!!.addpropic.setImageResource(R.drawable.woman)
+                    addpropic.setImageResource(R.drawable.woman)
                     1
                 } else {
-                    binding!!.addpropic.setImageResource(R.drawable.man)
+                    addpropic.setImageResource(R.drawable.man)
                     0
                 }
                 true
             }
-            binding!!.imageView7.setOnClickListener {
+            imageView7.setOnClickListener {
                 CropImage.activity()
                     .setGuidelines(CropImageView.Guidelines.ON).setAspectRatio(1, 1)
                     .start(this@setproacti)
             }
-            binding!!.savebtn.setOnClickListener {
-                if (binding!!.usernametxt.text.toString().isEmpty()) {
+            savebtn.setOnClickListener {
+                if (usernametxt.text.toString().isEmpty()) {
                     Toast.makeText(
                         applicationContext,
                         "please enter your username",
                         Toast.LENGTH_SHORT
                     ).show()
-                    binding!!.usernametxt.error = "Enter your username"
+                    usernametxt.error = "Enter your username"
                 } else if (imageuri != null) {
-                    binding!!.progressBar3.visibility = View.VISIBLE
+                    progressBar3.visibility = View.VISIBLE
                     senddatafornewuser()
                 }
             }
@@ -80,8 +77,8 @@ class setproacti : AppCompatActivity() {
                 if (task.isSuccessful) {
                     imageref.downloadUrl.addOnSuccessListener { uri ->
                         val uriofimg = uri.toString()
-                        val username = binding!!.usernametxt.text.toString()
-                        val status = binding!!.userstattxt2.text.toString()
+                        val username = usernametxt.text.toString()
+                        val status = userstattxt2.text.toString()
                         val no = firebaseAuth!!.currentUser!!.phoneNumber
                         val upd = User(
                             firebaseAuth!!.uid, username, uriofimg, status, no, "Online"
@@ -91,7 +88,7 @@ class setproacti : AppCompatActivity() {
                             .setValue(null)
                         database.reference.child("Users").child((firebaseAuth!!.uid)!!)
                             .setValue(upd).addOnSuccessListener {
-                                binding!!.progressBar3.visibility = View.INVISIBLE
+                                progressBar3.visibility = View.INVISIBLE
                                 val intent = Intent(this@setproacti, chatmain::class.java)
                                 startActivity(intent)
                                 finishAffinity()
@@ -108,7 +105,7 @@ class setproacti : AppCompatActivity() {
             val result = CropImage.getActivityResult(data)
             if (resultCode == RESULT_OK) {
                 imageuri = result.uri
-                binding!!.addpropic.setImageURI(imageuri)
+                addpropic.setImageURI(imageuri)
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 val error = result.error
                 Toast.makeText(this,error.toString(),Toast.LENGTH_SHORT).show()

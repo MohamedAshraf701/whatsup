@@ -10,9 +10,10 @@ import com.example.finalproject.R
 import com.bumptech.glide.Glide
 import android.content.Intent
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.finalproject.activitys.personchat
-import com.example.finalproject.databinding.RowofcontBinding
 import java.util.ArrayList
 
 class contusersAdaptor(var context: Context, private var contusers: ArrayList<Contuser>) :
@@ -24,10 +25,10 @@ class contusersAdaptor(var context: Context, private var contusers: ArrayList<Co
 
     override fun onBindViewHolder(holder: contuserviewholder, position: Int) {
         val user = contusers[position]
-        holder.binding.username.text = user.username
+        holder.username.text = user.username
         Glide.with(context).load(user.profilepicture).placeholder(R.drawable.man)
-            .into(holder.binding.imview)
-        holder.binding.numbertxt.text = user.phonenumber
+            .into(holder.imview)
+        holder.numbertxt.text = user.phonenumber
         holder.itemView.setOnClickListener {
             val intent = Intent(context, personchat::class.java)
             intent.putExtra("name", user.username)
@@ -43,7 +44,9 @@ class contusersAdaptor(var context: Context, private var contusers: ArrayList<Co
     }
 
     inner class contuserviewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var binding: RowofcontBinding = RowofcontBinding.bind(itemView)
+        val imview: ImageView =itemView.findViewById(R.id.imview4)
+        val username: TextView =itemView.findViewById(R.id.usernamec)
+        val numbertxt: TextView =itemView.findViewById(R.id.numbertxt)
 
     }
 }

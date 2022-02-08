@@ -9,7 +9,7 @@
     android:padding="5dp">
 
     <ImageView
-        android:id="@+id/reaction"
+        android:id="@+id/reactions"
         android:layout_width="13dp"
         android:layout_height="13dp"
         android:elevation="8dp"
@@ -22,7 +22,7 @@
         app:srcCompat="@drawable/googleg_standard_color_18" />
 
     <TextView
-        android:id="@+id/sentmsg"
+        android:id="@+id/sentmsgs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/sentdra"
@@ -37,13 +37,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/timeofmsgr"
+        android:id="@+id/timeofmsgs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="10:10 pm"
         android:textColor="@color/text1"
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sentmsg" />
+        app:layout_constraintTop_toBottomOf="@+id/sentmsgs" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

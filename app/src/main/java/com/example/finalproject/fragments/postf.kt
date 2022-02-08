@@ -1,4 +1,7 @@
+@file:Suppress("ClassName", "DEPRECATION", "RedundantSamConstructor", "UsePropertyAccessSyntax")
+
 package com.example.finalproject.fragments
+import android.annotation.SuppressLint
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.database.FirebaseDatabase
 import com.example.finalproject.adaptor.userpostadaptor
@@ -30,7 +33,7 @@ class postf : Fragment() {
     var firebaseDatabase: FirebaseDatabase? = null
     var userpostadaptor: userpostadaptor? = null
     var userposts: ArrayList<userposts>? = null
-    var dialog: ProgressDialog? = null
+    private var dialog: ProgressDialog? = null
     lateinit var usersarray: Array<String?>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,6 +62,7 @@ class postf : Fragment() {
             })
         firebaseDatabase!!.reference.child("posts")
             .addValueEventListener(object : ValueEventListener {
+                @SuppressLint("NotifyDataSetChanged")
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
                         userposts!!.clear()
@@ -96,8 +100,9 @@ class postf : Fragment() {
         return view
     }
 
-    var simpleDateFormat1: SimpleDateFormat? = null
-    var simpleDateFormat3: SimpleDateFormat? = null
+    private var simpleDateFormat1: SimpleDateFormat? = null
+    private var simpleDateFormat3: SimpleDateFormat? = null
+    @SuppressLint("SimpleDateFormat")
     @RequiresApi(api = Build.VERSION_CODES.N)
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -106,7 +111,7 @@ class postf : Fragment() {
             val storage = FirebaseStorage.getInstance()
             simpleDateFormat1 = SimpleDateFormat("hh:mm a")
             var calendar: Calendar = Calendar.getInstance()
-            var daat1: String = simpleDateFormat1!!.format(calendar.getTime())
+            val daat1: String = simpleDateFormat1!!.format(calendar.getTime())
             val reference = storage.reference.child("post").child(daat1)
             reference.putFile(data.data!!).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -136,6 +141,7 @@ class postf : Fragment() {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onStart() {
         super.onStart()
         userpostadaptor!!.notifyDataSetChanged()

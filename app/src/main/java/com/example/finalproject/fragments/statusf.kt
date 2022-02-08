@@ -1,4 +1,9 @@
+@file:Suppress("DEPRECATION", "RedundantSamConstructor", "RedundantExplicitType", "ClassName",
+    "UsePropertyAccessSyntax", "JoinDeclarationAndAssignment"
+)
+
 package com.example.finalproject.fragments
+import android.annotation.SuppressLint
 import com.example.finalproject.adaptor.Topstatusadeptor
 import com.example.finalproject.models.Userstatusm
 import android.app.ProgressDialog
@@ -18,7 +23,6 @@ import com.example.finalproject.models.Statusm
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.content.Intent
 import android.icu.util.Calendar
-import android.net.Uri
 import omari.hamza.storyview.model.MyStory
 import omari.hamza.storyview.StoryView
 import com.example.finalproject.activitys.chatmain
@@ -29,20 +33,16 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.OnSuccessListener
-import com.google.android.gms.tasks.Task
-import com.google.firebase.storage.UploadTask
 import de.hdodenhof.circleimageview.CircleImageView
 import java.text.SimpleDateFormat
 import java.util.ArrayList
 
-class statusf() : Fragment() {
+class statusf : Fragment() {
     var topstatusadeptor: Topstatusadeptor? = null
     var userstatusms: ArrayList<Userstatusm>? = null
     lateinit var usersarray: Array<String?>
-    var dialog: ProgressDialog? = null
+    private var dialog: ProgressDialog? = null
     var username: String? = null
     var imguri1: String? = null
     override fun onCreateView(
@@ -76,10 +76,8 @@ class statusf() : Fragment() {
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     usersarray = arrayOfNulls((snapshot.childrenCount.toInt()))
-                    var a = 0
-                    for (snapshot1: DataSnapshot in snapshot.children) {
+                    for ((a, snapshot1: DataSnapshot) in snapshot.children.withIndex()) {
                         usersarray[a] = snapshot1.key
-                        a++
                     }
                 }
 
@@ -92,6 +90,7 @@ class statusf() : Fragment() {
         rv.setAdapter(topstatusadeptor)
         FirebaseDatabase.getInstance().reference.child("Users")
             .addValueEventListener(object : ValueEventListener {
+                @SuppressLint("NotifyDataSetChanged")
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
                         userstatusms!!.clear()
@@ -129,7 +128,7 @@ class statusf() : Fragment() {
                                         }
                                         statusm.statuses=stat
                                         val s = stat[stat.size - 1]
-                                        statusm.lastupdate = s!!.timestamp
+                                        statusm.lastupdate = s.timestamp
                                         userstatusms!!.add(statusm)
                                     }
                                     topstatusadeptor!!.notifyDataSetChanged()
@@ -173,7 +172,8 @@ class statusf() : Fragment() {
     }
 
 
-    var simpleDateFormat1: SimpleDateFormat? = null
+    private var simpleDateFormat1: SimpleDateFormat? = null
+    @SuppressLint("SimpleDateFormat")
     @RequiresApi(api = Build.VERSION_CODES.N)
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -182,31 +182,26 @@ class statusf() : Fragment() {
                 dialog!!.show()
                 val storage = FirebaseStorage.getInstance()
                 simpleDateFormat1 = SimpleDateFormat("hh:mm a")
-                var calendar: Calendar= Calendar.getInstance()
-                var daat1: String= simpleDateFormat1!!.format(calendar.getTime())
+                val calendar: Calendar= Calendar.getInstance()
+                val daat1: String= simpleDateFormat1!!.format(calendar.getTime())
                 val reference = storage.reference.child("status").child(daat1)
                 reference.putFile(data.data!!)
-                    .addOnCompleteListener(object : OnCompleteListener<UploadTask.TaskSnapshot?> {
-                        override fun onComplete(task: Task<UploadTask.TaskSnapshot?>) {
-                            if (task.isSuccessful) {
-                                reference.downloadUrl.addOnSuccessListener(object :
-                                    OnSuccessListener<Uri> {
-                                    override fun onSuccess(uri: Uri) {
-                                        val imguri2 = uri.toString()
-                                        val randomkey =
-                                            FirebaseDatabase.getInstance().reference.push().key
-                                        val statusm = Statusm(imguri2, daat1, randomkey)
-                                        FirebaseDatabase.getInstance().reference.child("Users")
-                                            .child(
-                                                (FirebaseAuth.getInstance().uid)!!
-                                            ).child("statuses").child((randomkey)!!)
-                                            .setValue(statusm).addOnCompleteListener(
-                                            OnCompleteListener { dialog!!.dismiss() })
-                                    }
-                                })
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            reference.downloadUrl.addOnSuccessListener { uri ->
+                                val imguri2 = uri.toString()
+                                val randomkey =
+                                    FirebaseDatabase.getInstance().reference.push().key
+                                val statusm = Statusm(imguri2, daat1, randomkey)
+                                FirebaseDatabase.getInstance().reference.child("Users")
+                                    .child(
+                                        (FirebaseAuth.getInstance().uid)!!
+                                    ).child("statuses").child((randomkey)!!)
+                                    .setValue(statusm).addOnCompleteListener(
+                                        OnCompleteListener { dialog!!.dismiss() })
                             }
                         }
-                    })
+                    }
             }
         }
     }

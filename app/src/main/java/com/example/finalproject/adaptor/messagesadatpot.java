@@ -6,13 +6,12 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.finalproject.R;
-import com.example.finalproject.databinding.ItemrecBinding;
-import com.example.finalproject.databinding.ItemsentBinding;
 import com.example.finalproject.models.Message;
 import com.github.pgreze.reactions.ReactionPopup;
 import com.github.pgreze.reactions.ReactionsConfig;
@@ -85,14 +84,14 @@ public class messagesadatpot extends RecyclerView.Adapter{
             if(holder.getClass()==sentviewholder.class)
             {
                 sentviewholder sentviewholder=(sentviewholder)holder;
-                sentviewholder.binding.reaction.setImageResource(reactions[pos]);
-                sentviewholder.binding.reaction.setVisibility(View.VISIBLE);
+                sentviewholder.reaction.setImageResource(reactions[pos]);
+                sentviewholder.reaction.setVisibility(View.VISIBLE);
 
             }else
             {
                 recviewholder recviewholder=(recviewholder)holder;
-                recviewholder.binding.reaction.setImageResource(reactions[pos]);
-                recviewholder.binding.reaction.setVisibility(View.VISIBLE);
+                recviewholder.reaction.setImageResource(reactions[pos]);
+                recviewholder.reaction.setVisibility(View.VISIBLE);
             }
 
             message.setFeeling(pos);
@@ -104,15 +103,15 @@ public class messagesadatpot extends RecyclerView.Adapter{
         if(holder.getClass()==sentviewholder.class)
         {
             sentviewholder sentviewholder=(sentviewholder)holder;
-            sentviewholder.binding.sentmsg.setText(message.getMsg());
-            sentviewholder.binding.timeofmsgr.setText(message.getTimestamp());
+            sentviewholder.sentmsg.setText(message.getMsg());
+            sentviewholder.timeofmsgs.setText(message.getTimestamp());
             if(message.getFeeling()>=0)
             {
-                sentviewholder.binding.reaction.setImageResource(reactions[(int) message.getFeeling()]);
-                sentviewholder.binding.reaction.setVisibility(View.VISIBLE);
+                sentviewholder.reaction.setImageResource(reactions[(int) message.getFeeling()]);
+                sentviewholder.reaction.setVisibility(View.VISIBLE);
             }else
-                sentviewholder.binding.reaction.setVisibility(View.GONE);
-                sentviewholder.binding.sentmsg.setOnTouchListener(new View.OnTouchListener() {
+                sentviewholder.reaction.setVisibility(View.GONE);
+                sentviewholder.sentmsg.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
                         popup.onTouch(v,event);
@@ -124,15 +123,15 @@ public class messagesadatpot extends RecyclerView.Adapter{
         else
         {
             recviewholder recviewholder=(recviewholder)holder;
-            recviewholder.binding.sentmsg.setText(message.getMsg());
-            recviewholder.binding.timeofmsgr.setText(message.getTimestamp());
+            recviewholder.sentmsg.setText(message.getMsg());
+            recviewholder.timeofmsgr.setText(message.getTimestamp());
             if(message.getFeeling()>=0)
             {
-                recviewholder.binding.reaction.setImageResource(reactions[(int) message.getFeeling()]);
-                recviewholder.binding.reaction.setVisibility(View.VISIBLE);
+                recviewholder.reaction.setImageResource(reactions[(int) message.getFeeling()]);
+                recviewholder.reaction.setVisibility(View.VISIBLE);
             }else
-                recviewholder.binding.reaction.setVisibility(View.GONE);
-            recviewholder.binding.sentmsg.setOnTouchListener(new View.OnTouchListener() {
+                recviewholder.reaction.setVisibility(View.GONE);
+            recviewholder.sentmsg.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     popup.onTouch(v,event);
@@ -149,20 +148,27 @@ public class messagesadatpot extends RecyclerView.Adapter{
     }
 
     public  class sentviewholder extends RecyclerView.ViewHolder{
-
-        ItemsentBinding binding;
+        ImageView reaction;
+        TextView sentmsg;
+        TextView timeofmsgs;
         public sentviewholder(@NonNull View itemView) {
             super(itemView);
-            binding=ItemsentBinding.bind(itemView);
+             reaction=itemView.findViewById(R.id.reactions);
+             sentmsg=itemView.findViewById(R.id.sentmsgs);
+             timeofmsgs=itemView.findViewById(R.id.timeofmsgs);
+
 
         }
     }
     public  class recviewholder extends RecyclerView.ViewHolder{
-
-        ItemrecBinding binding;
+        ImageView reaction;
+        TextView sentmsg;
+        TextView timeofmsgr;
         public recviewholder(@NonNull View itemView) {
             super(itemView);
-            binding=ItemrecBinding.bind(itemView);
+             reaction=itemView.findViewById(R.id.reaction);
+             sentmsg=itemView.findViewById(R.id.sentmsg);
+             timeofmsgr=itemView.findViewById(R.id.timeofmsgr);
 
         }
     }

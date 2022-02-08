@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION", "ClassName")
+
 package com.example.finalproject.adaptor
 
 import androidx.fragment.app.Fragment

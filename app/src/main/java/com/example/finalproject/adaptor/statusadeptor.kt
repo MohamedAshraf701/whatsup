@@ -1,3 +1,5 @@
+@file:Suppress("ClassName", "UNUSED_ANONYMOUS_PARAMETER")
+
 package com.example.finalproject.adaptor
 
 import android.app.AlertDialog
@@ -8,15 +10,15 @@ import android.view.ViewGroup
 import android.view.LayoutInflater
 import com.example.finalproject.R
 import com.bumptech.glide.Glide
-import android.content.DialogInterface
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.finalproject.databinding.StoreeditBinding
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.auth.FirebaseAuth
 import java.util.ArrayList
 
-class statusadeptor(var context: Context, var statuses: ArrayList<Statusm>) :
+class statusadeptor(var context: Context, private var statuses: ArrayList<Statusm>) :
     RecyclerView.Adapter<statusviewholder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): statusviewholder {
         val view = LayoutInflater.from(context).inflate(R.layout.storeedit, parent, false)
@@ -25,9 +27,9 @@ class statusadeptor(var context: Context, var statuses: ArrayList<Statusm>) :
 
     override fun onBindViewHolder(holder: statusviewholder, position: Int) {
         val statusm = statuses[position]
-        Glide.with(context).load(statusm.imgurl).into(holder.binding.Storyimg)
-        holder.binding.timeofstory.text = statusm.timestamp
-        holder.binding.delbtnstory.setOnClickListener {
+        Glide.with(context).load(statusm.imgurl).into(holder.storyimg)
+        holder.timeofstory.text = statusm.timestamp
+        holder.delbtnstory.setOnClickListener {
             val builder = AlertDialog.Builder(
                 context
             )
@@ -51,10 +53,8 @@ class statusadeptor(var context: Context, var statuses: ArrayList<Statusm>) :
     }
 
     inner class statusviewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var binding: StoreeditBinding
-
-        init {
-            binding = StoreeditBinding.bind(itemView)
-        }
+        val storyimg: ImageView =itemView.findViewById(R.id.Storyimg)
+        val delbtnstory: ImageView =itemView.findViewById(R.id.delbtnstory)
+        val timeofstory: TextView =itemView.findViewById(R.id.timeofstory)
     }
 }

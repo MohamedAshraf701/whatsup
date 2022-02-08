@@ -1,24 +1,26 @@
+@file:Suppress("MemberVisibilityCanBePrivate", "ClassName")
+
 package com.example.finalproject.adaptor
-
 import android.content.Context
-
 import com.example.finalproject.models.Userstatusm
 import com.example.finalproject.adaptor.Topstatusadeptor.topstatusviewholder
 import android.view.ViewGroup
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.finalproject.R
 import com.bumptech.glide.Glide
+import com.devlomi.circularstatusview.CircularStatusView
 import omari.hamza.storyview.model.MyStory
-import com.example.finalproject.models.Statusm
 import omari.hamza.storyview.StoryView
 import com.example.finalproject.activitys.chatmain
-import com.example.finalproject.databinding.ItemstatusBinding
 import omari.hamza.storyview.callback.StoryClickListeners
 import java.util.ArrayList
 
-class Topstatusadeptor(var context: Context, var userstatuses: ArrayList<Userstatusm>) :
+class Topstatusadeptor(val context: Context, private var userstatuses: ArrayList<Userstatusm>) :
     RecyclerView.Adapter<topstatusviewholder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): topstatusviewholder {
         val view = LayoutInflater.from(context).inflate(R.layout.itemstatus, parent, false)
@@ -27,12 +29,12 @@ class Topstatusadeptor(var context: Context, var userstatuses: ArrayList<Usersta
 
     override fun onBindViewHolder(holder: topstatusviewholder, position: Int) {
         val userstatusm = userstatuses[position]
-        Glide.with(context).load(userstatusm.profileimg).into(holder.binding.imview)
-        holder.binding.textView9.text = userstatusm.lastupdate
-        holder.binding.textView13.text = userstatusm.name
-        holder.binding.circularStatusView.setPortionsCount(userstatusm.statuses!!.size)
-        holder.binding.cr1.setOnClickListener { showst(userstatusm) }
-        holder.binding.circularStatusView.setOnClickListener { showst(userstatusm) }
+        Glide.with(context).load(userstatusm.profileimg).into(holder.imview)
+        holder.textView9.text = userstatusm.lastupdate
+        holder.textView13.text = userstatusm.name
+        holder.cir.setPortionsCount(userstatusm.statuses!!.size)
+        holder.cr1.setOnClickListener { showst(userstatusm) }
+        holder.cir.setOnClickListener { showst(userstatusm) }
     }
 
     fun showst(userstatusm: Userstatusm) {
@@ -59,10 +61,10 @@ class Topstatusadeptor(var context: Context, var userstatuses: ArrayList<Usersta
     }
 
     inner class topstatusviewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var binding: ItemstatusBinding
-
-        init {
-            binding = ItemstatusBinding.bind(itemView)
-        }
+        val imview: ImageView =itemView.findViewById(R.id.imview3)
+        val cir:CircularStatusView =itemView.findViewById(R.id.circular_status_view)
+        val textView13: TextView =itemView.findViewById(R.id.textView13)
+        val textView9: TextView =itemView.findViewById(R.id.textView9)
+        val cr1:CardView =itemView.findViewById(R.id.cr1)
     }
 }

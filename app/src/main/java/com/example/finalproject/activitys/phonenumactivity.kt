@@ -12,33 +12,32 @@ import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.PhoneAuthProvider.ForceResendingToken
 import android.widget.Toast
-import com.example.finalproject.databinding.ActivityPhonenumactivityBinding
+import com.example.finalproject.R
 import com.google.firebase.auth.PhoneAuthProvider
+import kotlinx.android.synthetic.main.activity_phonenumactivity.*
 import java.util.concurrent.TimeUnit
 
 class phonenumactivity : AppCompatActivity() {
-    var binding: ActivityPhonenumactivityBinding? = null
+
     private var code: String? = null
     var phonenumbers: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityPhonenumactivityBinding.inflate(
-            layoutInflater
-        )
-        setContentView(binding!!.root)
+
+        setContentView(R.layout.activity_phonenumactivity)
         window.decorView.systemUiVisibility =
             View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
 
         val firebaseAuth = FirebaseAuth.getInstance()
-        code = binding!!.contrycode.defaultCountryCodeWithPlus
-        binding!!.contrycode.setOnCountryChangeListener {
-            code = binding!!.contrycode.selectedCountryCodeWithPlus
+        code = contrycode.defaultCountryCodeWithPlus
+        contrycode.setOnCountryChangeListener {
+            code = contrycode.selectedCountryCodeWithPlus
         }
-        binding!!.sendbtn.setOnClickListener {
-            val check = binding!!.phonetxt.text.toString()
+        sendbtn.setOnClickListener {
+            val check = phonetxt.text.toString()
             if (check.isNotEmpty() && check.length > 9) {
                 phonenumbers = code + check
-                binding!!.progressBar.visibility = View.VISIBLE
+                progressBar.visibility = View.VISIBLE
                 val options = PhoneAuthOptions.newBuilder(firebaseAuth).setPhoneNumber(
                     phonenumbers!!
                 ).setTimeout(60L, TimeUnit.SECONDS).setActivity(this@phonenumactivity)
@@ -55,7 +54,7 @@ class phonenumactivity : AppCompatActivity() {
                             super.onCodeSent(s, forceResendingToken)
                             Toast.makeText(applicationContext, "OTP sent", Toast.LENGTH_SHORT)
                                 .show()
-                            binding!!.progressBar.visibility = View.INVISIBLE
+                            progressBar.visibility = View.INVISIBLE
                             val intent = Intent(this@phonenumactivity, otpactivity::class.java)
                             intent.putExtra("otp", s)
                             intent.putExtra("phoneno", phonenumbers)
